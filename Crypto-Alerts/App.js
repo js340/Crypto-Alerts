@@ -6,13 +6,7 @@ import WatchlistProvider from "./src/contexts/watchListContext";
 
 export default function App() {
   return (
-    <NavigationContainer 
-      theme={{
-        colors: {
-          background: '#121212',
-        },
-      }}
-    >
+    <NavigationContainer theme={{ colors: { background: '#121212'}}}>
       <WatchlistProvider>
         <View style={styles.container}> 
           <Navigation />

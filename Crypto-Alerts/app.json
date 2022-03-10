@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Crypto-App-V2",
-    "slug": "Crypto-App-V2",
+    "name": "Crypto-Alerts",
+    "slug": "Crypto-Alerts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
