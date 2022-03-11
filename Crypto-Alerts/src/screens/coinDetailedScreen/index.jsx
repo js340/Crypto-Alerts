@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, Dimensions, TextInput, ActivityIndicator, Button } from 'react-native';
-import { getDetailedCoinData, getCoinMarketChart, getCandleChartData } from '../../services/requests'
 import CoinDetailHeader from './components/coinDetailedHeader';
 import FilterComponent from './components/filterComponents';
 import { LineChart, CandlestickChart } from 'react-native-wagmi-charts';
 import { useRoute } from '@react-navigation/native';
+import { getDetailedCoinData, getCoinMarketChart, getCandleChartData } from '../../services/requests'
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -40,6 +40,7 @@ const CoinDetailedScreen = () => {
     const fetchedSelectedCandleChartData = await getCandleChartData(coinId, selectedRangeValue);
     setCoinCandleChartData(fetchedSelectedCandleChartData);
   };
+
 
   useEffect(() => {
     fetchCoinData();
@@ -209,7 +210,6 @@ const CoinDetailedScreen = () => {
         <View>
           <Button
             title={'Send Local Notification'}
-            onPress={() => {}}
           />
         </View>
       </LineChart.Provider>
