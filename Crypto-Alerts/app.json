@@ -4,9 +4,9 @@
     "slug": "Crypto-Alerts",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Crypto-Alerts-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Crypto-Alerts-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

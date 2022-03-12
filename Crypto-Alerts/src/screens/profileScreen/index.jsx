@@ -24,9 +24,9 @@ const ProfileScreen = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={handleSignOut}
-          style={styles.button}
+          style={styles.button1}
         >
-          <Text>Sign Out</Text>
+          <Text style={styles.buttonText1}>Sign Out</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -48,14 +48,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 40,
   },
-  button: {
-    backgroundColor: "lightgrey",
-    width: 200,
-    padding: 15,
+  button1: {
+    backgroundColor: '#ffae32',
+    width: 150,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#ffae32',
     borderRadius: 10,
     marginTop:10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonText1:{
+    color: 'black',
+    fontWeight: '600',
+    fontSize: 16,
   },
   emailText:{
     color: 'white',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, View, Text, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, View, Text, StyleSheet, Image } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from "../../../firebase";
@@ -42,21 +42,24 @@ const LoginScreen = () => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior='padding'
     >
+      <View style={styles.iconContainer}>
+        <Image source={require('../../../assets/Crypto-Alerts-icon.png')} style={styles.icon} />
+      </View>
+
       <View style={styles.inputContainer}>
         <TextInput 
           value={email}
           onChangeText={text => setEmail(text)}
           placeholder='Email' 
-          placeholderTextColor="grey"
+          placeholderTextColor="white"
           style={styles.textInput}
         />
         <TextInput 
           value={password}
           onChangeText={text => setPassword(text)}
           placeholder='Password' 
-          placeholderTextColor="grey"
+          placeholderTextColor="white"
           style={styles.textInput}
           secureTextEntry
         />
@@ -65,15 +68,15 @@ const LoginScreen = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={handleLogin}
-          style={styles.button}
+          style={styles.button1}
         >
-          <Text stye={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText1}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSignUp}
-          style={styles.button}
+          style={styles.button2}
         >
-          <Text stye={styles.buttonText}>Register</Text>
+          <Text style={styles.buttonText2}>Register</Text>
         </TouchableOpacity>
 
       </View>
@@ -86,9 +89,18 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
+    paddingTop: 100,
+  },
+  iconContainer:{
+    paddingBottom: 50,
+  },
+  icon:{
+    width: 128,
+    height: 128,
+    borderRadius: 10,
   },
   inputContainer: {
     width: '80%',
@@ -99,22 +111,46 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 10,
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
   },
   buttonContainer: {
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 10,
+    borderColor: 'yellow',
   },
-  button: {
-    backgroundColor: "lightgrey",
-    width: 200,
-    padding: 15,
+  button1: {
+    backgroundColor: '#ffae32',
+    width: 150,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#ffae32',
     borderRadius: 10,
     marginTop:10,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+  buttonText1:{
+    color: 'black',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  button2: {
+    backgroundColor: 'transparent',
+    width: 150,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#ffae32',
+    borderRadius: 10,
+    marginTop:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText2:{
+    color: 'white',
+    fontWeight: '600',
+    fontSize: 16,
+  },
 });
