@@ -3,7 +3,8 @@ import { FlatList, RefreshControl, View, Text } from 'react-native';
 import CoinItem from "./coinItem";
 import { getMarketData } from '../../services/requests';
 
-const HomeScreen = () => {
+
+const CoinListScreen = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +30,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     fetchCoins();
-  }, [])
+  }, []);
 
   return (
     <View>
@@ -53,4 +54,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default CoinListScreen;

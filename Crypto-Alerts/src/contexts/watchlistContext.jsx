@@ -1,5 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth, db } from '../../../firebase';
+
 
 const WatchlistContext = createContext();
 
@@ -19,20 +21,30 @@ const WatchlistProvider = ({children}) => {
 
   const storeWatchlistCoinId = async (coinId) => {
     try {
+      // add watchlist in async storage
       const newWatchList = [...watchlistCoinIds, coinId];
       const jsonValue = JSON.stringify(newWatchList);
       await AsyncStorage.setItem('@watchlist_coins', jsonValue);
       setWatchlistCoinIds(newWatchList);
+
+      // add coinID to firebase watchlist
+
+
     } catch (e) {
       console.log(e);
     }
   }
 
   const removeWatchlistCoinId = async (coinId) => {
+    // remove coinId in async storage
     const newWatchList = watchlistCoinIds.filter((coinIdValue) => coinIdValue !== coinId);
     const jsonValue = JSON.stringify(newWatchList);
     await AsyncStorage.setItem('@watchlist_coins', jsonValue);
     setWatchlistCoinIds(newWatchList);
+
+    // remove coinId in firebase watchlist
+
+
   }
 
   useEffect(() => {
