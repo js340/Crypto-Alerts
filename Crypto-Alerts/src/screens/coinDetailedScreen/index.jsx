@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, Text, Dimensions, TextInput, ActivityIndicator, Button } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TextInput, ActivityIndicator } from 'react-native';
 import CoinDetailHeader from './components/coinDetailedHeader';
 import FilterComponent from './components/filterComponents';
 import { LineChart, CandlestickChart } from 'react-native-wagmi-charts';
@@ -7,7 +7,10 @@ import { useRoute } from '@react-navigation/native';
 import { getDetailedCoinData, getCoinMarketChart, getCandleChartData } from '../../services/requests'
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
+import { useWatchlist } from '../../contexts/watchListContext';
 
+export const getThresholdAmount = () => useContext(thresholdAmount);
 
 const CoinDetailedScreen = () => {
 
@@ -19,6 +22,7 @@ const CoinDetailedScreen = () => {
   const [usdValue, setUsdValue] = useState("");
   const [selectedRange, setSelectedRange] = useState("1");
   const [isCandleChartVisible, setIsCandleChartVisible] = useState(false);
+  const [thresholdAmount, setThresholdAmount] = useState(2);
 
   const route = useRoute();
   const { params: { coinId } } = route;
@@ -39,6 +43,16 @@ const CoinDetailedScreen = () => {
   const fetchCandleStickChartData = async (selectedRangeValue) => {
     const fetchedSelectedCandleChartData = await getCandleChartData(coinId, selectedRangeValue);
     setCoinCandleChartData(fetchedSelectedCandleChartData);
+  };
+
+  // watchlist context - updates threshold value in watchlist context
+  const { watchlistCoinIds, updateWatchlistCoinId } = useWatchlist();
+  const checkIfCoinIsWatchlisted = () => JSON.stringify(watchlistCoinIds).includes(coinId);  
+  const thresholdValueChanged = (value) => {
+    setThresholdAmount(value);
+    if (checkIfCoinIsWatchlisted()) {
+      return updateWatchlistCoinId(coinId, value);
+    }
   };
 
 
@@ -114,7 +128,9 @@ const CoinDetailedScreen = () => {
           image={small}
           symbol={symbol}
           market_cap_rank={market_cap_rank}
+          thresholdAmount={thresholdAmount}
         />
+
         <View style={styles.priceContainer}>
           <View>
             <Text style={styles.name}>{name}</Text>
@@ -132,6 +148,7 @@ const CoinDetailedScreen = () => {
             </Text>
           </View>
         </View>
+
         <View style={styles.filtersContainer}>
           <FilterComponent filterDay="1" filterText="24H" selectedRange={selectedRange} setSelectedRange={memoOnSelectedRangeChange} />
           <FilterComponent filterDay="7" filterText="7D" selectedRange={selectedRange} setSelectedRange={memoOnSelectedRangeChange} />
@@ -144,8 +161,8 @@ const CoinDetailedScreen = () => {
             <MaterialIcons name="waterfall-chart" size={24} color="#16c784" onPress={() => setIsCandleChartVisible(true)} />
           )}
         </View>
-        <View>
 
+        <View>
           {isCandleChartVisible ? (
             <CandlestickChart.Provider
               data={coinCandleChartData.map(
@@ -187,7 +204,8 @@ const CoinDetailedScreen = () => {
             </LineChart>
           )}
         </View>
-        <View style={{ flexDirection: 'row' }}>
+
+        <View style={{ flexDirection: 'row', paddingTop: 50 }}>
           <View style={{ flexDirection: 'row', flex: 1 }}>
             <Text style={{ color: 'white', alignSelf: 'center' }}>{symbol.toUpperCase()}</Text>
             <TextInput
@@ -207,11 +225,21 @@ const CoinDetailedScreen = () => {
             />
           </View>
         </View>
-        <View>
-          <Button
-            title={'Send Local Notification'}
-          />
+
+        <View style={{ alignContent: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style={{color: 'white', fontSize: 16, alignSelf: 'center', padding: 10}}>Threshold Ammount:</Text>
+          <Picker 
+            style={styles.picker} 
+            selectedValue={thresholdAmount}
+            onValueChange={(value, index) => {thresholdValueChanged(value)}}
+            mode="dropdown" // Android only
+          >
+            <Picker.Item label="2%" value="2" color="white"/>
+            <Picker.Item label="5%" value="5" color="white"/>
+            <Picker.Item label="10%" value="10" color="white"/>
+          </Picker>
         </View>
+
       </LineChart.Provider>
     </View >
   );
@@ -248,10 +276,13 @@ const styles = StyleSheet.create({
     width: 130,
     height: 40,
     margin: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: 'white',
     padding: 10,
     fontSize: 16,
+    color: 'white',
+    backgroundColor: "#2b2b2b",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
     color: 'white',
   },
   filtersContainer: {
@@ -278,5 +309,24 @@ const styles = StyleSheet.create({
   candleStickTextLabel: {
     color: 'grey',
     fontSize: 13,
+  },
+  thresholdButtons: {
+    backgroundColor: '#2b2b2b',
+    borderRadius: 10,
+    width: 75,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  thresholdText: {
+    fontSize: 24,
+    padding: 10,
+  },
+  picker: {
+    width: 150,
+    padding: 10,
+  },
+  pickerItem: {
+    fontSize: 10,
+    color: 'green'
   }
 });

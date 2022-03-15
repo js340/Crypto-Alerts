@@ -6,6 +6,14 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { auth, db } from '../../../firebase';
 
+// Listens for push notification from expo api
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const LoginScreen = () => {
 
@@ -69,7 +77,11 @@ const LoginScreen = () => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     console.log(expoPushToken);
     storeTokenInFirebase();
-    
+
+    // notifications
+    Notifications.addNotificationReceivedListener(this._handleNotification);
+    Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
+
     return unsubscribe;
   }, [])
 
