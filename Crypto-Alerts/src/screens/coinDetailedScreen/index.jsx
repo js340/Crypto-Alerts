@@ -47,19 +47,30 @@ const CoinDetailedScreen = () => {
 
   // watchlist context - updates threshold value in watchlist context
   const { watchlistCoinIds, updateWatchlistCoinId } = useWatchlist();
-  const checkIfCoinIsWatchlisted = () => JSON.stringify(watchlistCoinIds).includes(coinId);  
+  const checkIfCoinIsWatchlisted = () => JSON.stringify(watchlistCoinIds).includes(coinId);
   const thresholdValueChanged = (value) => {
-    setThresholdAmount(value);
-    if (checkIfCoinIsWatchlisted()) {
-      return updateWatchlistCoinId(coinId, value);
+    if (value != 0) {
+      setThresholdAmount(value);
+      if (checkIfCoinIsWatchlisted()) {
+        return updateWatchlistCoinId(coinId, value);
+      }
     }
   };
-
+  const updateThresholdValueOnStartup = () => {
+    if (checkIfCoinIsWatchlisted()) {
+      for (var i = 0; i < watchlistCoinIds.length; i++) {
+        if (watchlistCoinIds[i][0] == coinId) {
+          setThresholdAmount(watchlistCoinIds[i][1]);
+        };
+      };
+    };
+  };
 
   useEffect(() => {
     fetchCoinData();
     fetchMarketCoinData(1);
     fetchCandleStickChartData();
+    updateThresholdValueOnStartup();
   }, []);
 
   const onSelectedRangeChange = (selectedRangeValue) => {
@@ -226,20 +237,34 @@ const CoinDetailedScreen = () => {
           </View>
         </View>
 
-        <View style={{ alignContent: 'center', flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style={{color: 'white', fontSize: 16, alignSelf: 'center', padding: 10}}>Threshold Ammount:</Text>
-          <Picker 
-            style={styles.picker} 
-            selectedValue={thresholdAmount}
-            onValueChange={(value, index) => {thresholdValueChanged(value)}}
-            mode="dropdown" // Android only
-          >
-            <Picker.Item label="2%" value="2" color="white"/>
-            <Picker.Item label="5%" value="5" color="white"/>
-            <Picker.Item label="10%" value="10" color="white"/>
-          </Picker>
+        <View >
+          <View style={{ alignContent: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+            <Picker
+              style={styles.picker}
+              selectedValue={thresholdAmount}
+              onValueChange={(value, index) => { thresholdValueChanged(value) }}
+              mode="dropdown" // Android only
+            >
+              <Picker.Item label="Change Threshold" value="0" color="white" />
+              <Picker.Item label="1%" value="1" color="white" />
+              <Picker.Item label="2%" value="2" color="white" />
+              <Picker.Item label="3%" value="3" color="white" />
+              <Picker.Item label="4%" value="4" color="white" />
+              <Picker.Item label="5%" value="5" color="white" />
+              <Picker.Item label="6%" value="6" color="white" />
+              <Picker.Item label="7%" value="7" color="white" />
+              <Picker.Item label="8%" value="8" color="white" />
+              <Picker.Item label="9%" value="9" color="white" />
+              <Picker.Item label="10%" value="10" color="white" />
+            </Picker>
+          </View>
+          <Text style={{ color: 'white', fontSize: 18, alignSelf: 'center', padding: 10 }}>
+            {checkIfCoinIsWatchlisted() ?
+              <Text>Current threshold is {thresholdAmount}%</Text> :
+              <Text>Watchlist coin to recieve notifications</Text>
+            }
+          </Text>
         </View>
-
       </LineChart.Provider>
     </View >
   );
@@ -322,7 +347,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   picker: {
-    width: 150,
+    width: 300,
     padding: 10,
   },
   pickerItem: {

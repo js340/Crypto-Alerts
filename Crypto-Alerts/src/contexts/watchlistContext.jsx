@@ -8,12 +8,12 @@ const WatchlistContext = createContext();
 export const useWatchlist = () => useContext(WatchlistContext);
 
 const WatchlistProvider = ({ children }) => {
-  const [watchlistCoinIds, setWatchlistCoinIds] = useState([[]]);
+  const [watchlistCoinIds, setWatchlistCoinIds] = useState([]);
 
   const getWatchlistData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("@watchlist_coins");
-      setWatchlistCoinIds(jsonValue != null ? JSON.parse(jsonValue) : [[]]);
+      setWatchlistCoinIds(jsonValue != null ? JSON.parse(jsonValue) : []);
     } catch (e) {
       console.log(e);
     }
@@ -75,8 +75,6 @@ const WatchlistProvider = ({ children }) => {
     }
   }
 
-
-
   useEffect(() => {
     let isMounted = true;
     getWatchlistData();
@@ -84,7 +82,7 @@ const WatchlistProvider = ({ children }) => {
   }, []);
 
   return (
-    <WatchlistContext.Provider value={{ watchlistCoinIds, storeWatchlistCoinId, removeWatchlistCoinId, updateWatchlistCoinId }}>
+    <WatchlistContext.Provider value={{ watchlistCoinIds, storeWatchlistCoinId, removeWatchlistCoinId, updateWatchlistCoinId, updateFirestoreDatabase }}>
       {children}
     </WatchlistContext.Provider>
   );

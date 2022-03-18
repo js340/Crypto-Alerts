@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, View, Text } from 'react-native';
 import CoinItem from "./coinItem";
 import { getMarketData } from '../../services/requests';
+import { useWatchlist } from '../../contexts/watchListContext';
 
 
 const CoinListScreen = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { updateWatchlistCoinId } = useWatchlist();
 
   const fetchCoins = async (pageNumber) => {
     if (loading) {
@@ -30,6 +33,7 @@ const CoinListScreen = () => {
 
   useEffect(() => {
     fetchCoins();
+    updateWatchlistCoinId();
   }, []);
 
   return (

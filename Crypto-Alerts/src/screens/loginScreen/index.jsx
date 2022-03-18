@@ -73,12 +73,10 @@ const LoginScreen = () => {
         navigation.replace("Root");
       }
     })
-    // get the users expo push token, then stores it in firestore db
+    // get the users expo push token, then stores it in firestore db once user logs in or signs up
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-    console.log(expoPushToken);
-    storeTokenInFirebase();
 
-    // notifications
+    // notifications listener 
     Notifications.addNotificationReceivedListener(this._handleNotification);
     Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
 
@@ -90,7 +88,8 @@ const LoginScreen = () => {
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log("Registered new user: ", user.email)
+        console.log("Registered new user: ", user.email);
+        storeTokenInFirebase();
       })
       .catch(error => alert(error.message))
   }
@@ -100,7 +99,8 @@ const LoginScreen = () => {
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log("Logged in as: ", user.email)
+        console.log("Logged in as: ", user.email);
+        storeTokenInFirebase();
       })
       .catch(error => alert(error.message))
   }
