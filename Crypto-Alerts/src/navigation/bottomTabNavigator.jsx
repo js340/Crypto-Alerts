@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { FontAwesome , Ionicons } from '@expo/vector-icons';
 import CoinListScreen from '../screens/coinListScreen';
+import SearchScreen from '../screens/searchScreen';
 import WatchListScreen from '../screens/watchListScreen';
 import ProfileScreen from '../screens/profileScreen';
 
@@ -22,6 +23,9 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen name="Crypto Assets" component={CoinListScreen} options={{
         tabBarIcon: ({ focused, color }) => (<Ionicons name="list-sharp" size={focused ? 30 : 25} color={color} />)
+      }} />
+      <Tab.Screen name="Search Assets" component={SearchScreen} options={{
+        tabBarIcon: ({ focused, color }) => (<FontAwesome name="search" size={focused ? 28 : 23} color={color} />)
       }} />
       <Tab.Screen name="Watch List" component={WatchListScreen} options={{
         tabBarIcon: ({ focused, color }) => (<FontAwesome name="star" size={focused ? 30 : 25} color={color} />)

@@ -1,9 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CoinListScreen from '../screens/coinListScreen';
-import CoinDetailedScreen from '../screens/coinDetailedScreen';
 import BottomTabNavigator from './bottomTabNavigator';
 import LoginScreen from '../screens/loginScreen'
+import CoinListScreen from '../screens/coinListScreen';
+import CoinDetailedScreen from '../screens/coinDetailedScreen';
+import SearchScreen from '../screens/searchScreen';
 import ProfileScreen from '../screens/profileScreen'
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ const Navigation = () => {
       <Stack.Screen name='Root' component={BottomTabNavigator}/>
       <Stack.Screen name='CoinListScreen' component={CoinListScreen}/>
       <Stack.Screen name='CoinDetailedScreen' component={CoinDetailedScreen}/>
+      <Stack.Screen name='SearchScreen' component={SearchScreen}/>
       <Stack.Screen name='ProfileScreen' component={ProfileScreen}/>
     </Stack.Navigator>
   )
