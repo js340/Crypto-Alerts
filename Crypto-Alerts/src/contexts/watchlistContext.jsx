@@ -19,7 +19,7 @@ const WatchlistProvider = ({ children }) => {
     }
   }
 
-  // add coinID to firebase watchlist
+  // update firebase watchlist
   const updateFirestoreDatabase = async () => {
     var userRecord = db.collection('users').doc(auth.currentUser?.uid);
     const newWatchList = JSON.stringify(watchlistCoinIds);
@@ -38,7 +38,6 @@ const WatchlistProvider = ({ children }) => {
       await AsyncStorage.setItem('@watchlist_coins', jsonValue);
       setWatchlistCoinIds(newWatchList);
       updateFirestoreDatabase();
-      console.log(newWatchList, "via storewatchlist method");
     } catch (e) {
       console.log(e);
     }
@@ -56,7 +55,6 @@ const WatchlistProvider = ({ children }) => {
       await AsyncStorage.setItem('@watchlist_coins', jsonValue);
       setWatchlistCoinIds(newWatchList);
       updateFirestoreDatabase();
-      console.log(newWatchList, "via updatewatchlist method");
     } catch (e) {
       console.log(e);
     }
@@ -69,7 +67,6 @@ const WatchlistProvider = ({ children }) => {
       await AsyncStorage.setItem('@watchlist_coins', jsonValue);
       setWatchlistCoinIds(newWatchList);
       updateFirestoreDatabase();
-      console.log(newWatchList, "via removewatchlist method");
     } catch (e) {
       console.long(e);
     }
