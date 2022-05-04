@@ -182,3 +182,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# Loop through user in users
+  # Loop through coins in users watchlist
+    # If API call already been made for the coin
+      # If 24 hour change > threshold
+        # Send user notification
+    # Else
+      # Make API call to get 24 hour change for coin
+      # Store change in array
+      # If 24 hour change > threshold
+        # Send user notification
+
